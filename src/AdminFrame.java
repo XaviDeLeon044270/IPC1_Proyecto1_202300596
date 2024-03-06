@@ -57,8 +57,8 @@ public class AdminFrame extends JFrame{
         actualizarPacienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //ActualizarPacienteFrame actualizarPacienteFrame = new ActualizarPacienteFrame();
-                //actualizarPacienteFrame.initialize();
+                CodigoPacienteFrame codigoPacienteFrame = new CodigoPacienteFrame();
+                codigoPacienteFrame.initialize();
             }
         });
 
