@@ -143,8 +143,8 @@ public class AdminFrame extends JFrame{
         actualizarDoctorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //ActualizarDoctorFrame actualizarDoctorFrame = new ActualizarDoctorFrame();
-                //actualizarDoctorFrame.initialize();
+                CodigoDoctorFrame codigoDoctorFrame = new CodigoDoctorFrame();
+                codigoDoctorFrame.initialize();
             }
         });
 
@@ -287,8 +287,51 @@ public class AdminFrame extends JFrame{
         pacientesModelTable.addRow(new Object[]{paciente.getNombres(), paciente.getApellidos(), paciente.getEdad(), paciente.getGenero(), paciente.getContrasena(), paciente.getCodigo()});
     }
 
+    public static void actualizarPacienteEnTabla(Paciente paciente) {
+        
+        int fila = -1;
+        for (int i = 0; i < pacientesModelTable.getRowCount(); i++) {
+            if (pacientesModelTable.getValueAt(i, 5).equals(paciente.getCodigo())) {
+                fila = i;
+                break;
+            }
+        }
+    
+        if (fila != -1) {
+            pacientesModelTable.setValueAt(paciente.getNombres(), fila, 0);
+            pacientesModelTable.setValueAt(paciente.getApellidos(), fila, 1);
+            pacientesModelTable.setValueAt(paciente.getEdad(), fila, 2);
+            pacientesModelTable.setValueAt(paciente.getGenero(), fila, 3);
+            pacientesModelTable.setValueAt(paciente.getContrasena(), fila, 4);
+            pacientesModelTable.setValueAt(paciente.getCodigo(), fila, 5);
+        }
+    }
+
     public static void agregarDoctorATabla(Doctor doctor) {
         doctoresModelTable.addRow(new Object[]{doctor.getNombres(), doctor.getApellidos(), doctor.getEdad(), doctor.getGenero(), doctor.getContrasena(), doctor.getEspecialidad(), doctor.getTelefono(), doctor.getCodigo()});
+    }
+
+    public static void actualizarDoctorEnTabla(Doctor doctor) {
+        
+        int fila = -1;
+        for (int i = 0; i < doctoresModelTable.getRowCount(); i++) {
+            if (doctoresModelTable.getValueAt(i, 7).equals(doctor.getCodigo())) {
+                fila = i;
+                break;
+            }
+        }
+    
+        if (fila != -1) {
+            doctoresModelTable.setValueAt(doctor.getNombres(), fila, 0);
+            doctoresModelTable.setValueAt(doctor.getApellidos(), fila, 1);
+            doctoresModelTable.setValueAt(doctor.getEdad(), fila, 2);
+            doctoresModelTable.setValueAt(doctor.getGenero(), fila, 3);
+            doctoresModelTable.setValueAt(doctor.getContrasena(), fila, 4);
+            doctoresModelTable.setValueAt(doctor.getEspecialidad(), fila, 5);
+            doctoresModelTable.setValueAt(doctor.getTelefono(), fila, 6);
+            doctoresModelTable.setValueAt(doctor.getCodigo(), fila, 7);
+            
+        }
     }
 
     public static void agregarProductoATabla(Producto producto) {

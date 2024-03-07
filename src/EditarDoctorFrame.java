@@ -3,18 +3,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class EditarPacienteFrame extends JFrame{
+public class EditarDoctorFrame extends JFrame{
 
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 35);
     JTextField nombresText, apellidosText, contrasenaText;
     JLabel tituloLabel;
-    JSpinner edadSpinner;
-    JComboBox<String> generoComboBox;
-    private Paciente paciente;
+    JSpinner edadSpinner, telefonoSpinner;
+    JComboBox<String> generoComboBox, especialidadComboBox;
+    private Doctor doctor;
 
-    public EditarPacienteFrame(Paciente paciente) {
-        this.paciente = paciente;
+    public EditarDoctorFrame(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     public void initialize(){
@@ -29,7 +29,7 @@ public class EditarPacienteFrame extends JFrame{
         apellidosText.setFont(principalFont);
         JLabel edadLabel = new JLabel("Edad", SwingConstants.LEFT);
         edadLabel.setFont(principalFont);
-        edadSpinner = new JSpinner(new SpinnerNumberModel(18, 18, 110, 1));
+        edadSpinner = new JSpinner(new SpinnerNumberModel(23, 23, 110, 1));
         edadSpinner.setFont(principalFont);
         JLabel generoLabel = new JLabel("Genero", SwingConstants.LEFT);
         generoLabel.setFont(principalFont);
@@ -40,6 +40,16 @@ public class EditarPacienteFrame extends JFrame{
         contrasenaLabel.setFont(principalFont);
         contrasenaText = new JPasswordField();
         contrasenaText.setFont(principalFont);
+        JLabel especialidadLabel = new JLabel("Especialidad", SwingConstants.LEFT);
+        especialidadLabel.setFont(principalFont);
+        String[] especialidad = {"Seleccione la opción", "Cardiólogo", "Pediatra", "Urologo", "Ginecologo", "Oftalmologo", "Dermatologo", "Oncologo", "Neurologo", "Psiquiatra"};
+        especialidadComboBox = new JComboBox<>(especialidad);
+        JLabel telefonoLabel = new JLabel("Telefono", SwingConstants.LEFT);
+        telefonoLabel.setFont(principalFont);
+        telefonoSpinner = new JSpinner(new SpinnerNumberModel(11111111, 11111111, 99999999, 1));
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(telefonoSpinner, "#");
+        telefonoSpinner.setEditor(editor);
+        telefonoSpinner.setFont(principalFont);
 
         JButton actualizarCuentaButton = new JButton("Editar Cuenta");
         actualizarCuentaButton.setFont(principalFont);
@@ -53,19 +63,21 @@ public class EditarPacienteFrame extends JFrame{
                 String edad = edadSpinner.getValue().toString();
                 String genero = (String) generoComboBox.getSelectedItem();
                 String contrasena = new String(contrasenaText.getText());
+                String especialidad = (String) especialidadComboBox.getSelectedItem();
+                String telefono = telefonoSpinner.getValue().toString();
                 
-                if (nombres.isEmpty() || apellidos.isEmpty() || edad.isEmpty() || genero.equals("Seleccione la opción") || contrasena.length() == 0) {
+                if (nombres.isEmpty() || apellidos.isEmpty()|| edad.isEmpty() || genero.equals("Seleccione la opción") || contrasena.length() == 0 || especialidad.equals("Seleccione la opción")|| telefono.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Rellena todos los campos");
                     return;
                 }
                 else{
-                    actualizarPaciente();
+                    actualizarDoctor();
                 }
                 
             }
         });
 
-        tituloLabel = new JLabel("Editar Cuenta de Paciente", SwingConstants.CENTER);
+        tituloLabel = new JLabel("Editar Cuenta de Doctor", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
 
         JPanel tituloPanel = new JPanel(new GridLayout(0,1,0,1));        
@@ -74,18 +86,22 @@ public class EditarPacienteFrame extends JFrame{
         tituloPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
 
         JPanel formularioPanel = new JPanel();
-        formularioPanel.setLayout(new GridLayout(5,1,5,5));
+        formularioPanel.setLayout(new GridLayout(4,2,5,5));
         formularioPanel.setOpaque(false);
         formularioPanel.add(nombresLabel);
         formularioPanel.add(nombresText);
         formularioPanel.add(apellidosLabel);
         formularioPanel.add(apellidosText);
-        formularioPanel.add(edadLabel);
-        formularioPanel.add(edadSpinner);
-        formularioPanel.add(generoLabel);
-        formularioPanel.add(generoComboBox);
         formularioPanel.add(contrasenaLabel);
         formularioPanel.add(contrasenaText);
+        formularioPanel.add(generoLabel);
+        formularioPanel.add(generoComboBox);
+        formularioPanel.add(especialidadLabel);
+        formularioPanel.add(especialidadComboBox);
+        formularioPanel.add(edadLabel);
+        formularioPanel.add(edadSpinner);
+        formularioPanel.add(telefonoLabel);
+        formularioPanel.add(telefonoSpinner);
         formularioPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
 
         JPanel botonesPanel = new JPanel();
@@ -104,36 +120,41 @@ public class EditarPacienteFrame extends JFrame{
 
         add(principalPanel);
 
-        setTitle("Editar Cuenta de Paciente");
+        setTitle("Editar Cuenta de Doctor");
         setSize(300, 300);
-        setMinimumSize(new Dimension(450, 450));
+        setMinimumSize(new Dimension(700, 400));
         setVisible(true);
 
-        nombresText.setText(paciente.getNombres());
-        apellidosText.setText(paciente.getApellidos());
-        edadSpinner.setValue(paciente.getEdad());
-        generoComboBox.setSelectedItem(paciente.getGenero());
-        contrasenaText.setText(paciente.getContrasena());
+        nombresText.setText(doctor.getNombres());
+        apellidosText.setText(doctor.getApellidos());
+        edadSpinner.setValue(doctor.getEdad());
+        generoComboBox.setSelectedItem(doctor.getGenero());
+        contrasenaText.setText(doctor.getContrasena());
+        especialidadComboBox.setSelectedItem(doctor.getEspecialidad());
+        telefonoSpinner.setValue(doctor.getTelefono());
     }
 
-    private void actualizarPaciente() {
+    private void actualizarDoctor() {
         
         String nombres = nombresText.getText();
         String apellidos = apellidosText.getText();
         String edad = edadSpinner.getValue().toString();
         String genero = generoComboBox.getSelectedItem().toString();
         String contrasena = contrasenaText.getText();
+        String especialidad = especialidadComboBox.getSelectedItem().toString();
+        String telefono = telefonoSpinner.getValue().toString();
 
-        paciente.setNombres(nombres);
-        paciente.setApellidos(apellidos);
-        paciente.setEdad(edad);
-        paciente.setGenero(genero);
-        paciente.setContrasena(contrasena);
-
+        doctor.setNombres(nombres);
+        doctor.setApellidos(apellidos);
+        doctor.setEdad(edad);
+        doctor.setGenero(genero);
+        doctor.setContrasena(contrasena);
+        doctor.setEspecialidad(especialidad);
+        doctor.setTelefono(telefono);
         
-        JOptionPane.showMessageDialog(null, "Se han actualizado los datos del paciente.");
+        JOptionPane.showMessageDialog(null, "Se han actualizado los datos del doctor.");
 
-        AdminFrame.actualizarPacienteEnTabla(paciente);
+        AdminFrame.actualizarDoctorEnTabla(doctor);
 
         dispose();
     }

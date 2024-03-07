@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class CodigoPacienteFrame extends JFrame{
+public class CodigoDoctorFrame extends JFrame{
 
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     JTextField codigoText;
@@ -12,7 +12,7 @@ public class CodigoPacienteFrame extends JFrame{
     
     public void initialize(){
 
-        JLabel tituloLabel = new JLabel("Ingrese el código del paciente", SwingConstants.CENTER);
+        JLabel tituloLabel = new JLabel("Ingrese el código del doctor", SwingConstants.CENTER);
         tituloLabel.setFont(principalFont);
 
         JLabel codigoLabel = new JLabel("Código", SwingConstants.LEFT);
@@ -31,10 +31,10 @@ public class CodigoPacienteFrame extends JFrame{
 
                 boolean encontrado = false;
 
-                for (Paciente paciente : Main.pacientes) {
-                    if (paciente.getCodigo().equals(codigo)){
-                        EditarPacienteFrame actualizarPacienteFrame = new EditarPacienteFrame(paciente);
-                        actualizarPacienteFrame.initialize();
+                for (Doctor doctor : Main.doctores) {
+                    if (doctor.getCodigo().equals(codigo)){
+                        EditarDoctorFrame actualizarDoctorFrame = new EditarDoctorFrame(doctor);
+                        actualizarDoctorFrame.initialize();
                         dispose();
                         encontrado = false;
                     }
@@ -76,7 +76,7 @@ public class CodigoPacienteFrame extends JFrame{
 
         add(principalPanel);
 
-        setTitle("Editar Cuenta de Paciente");
+        setTitle("Editar Cuenta de Doctor");
         setSize(400, 250);
         setMinimumSize(new Dimension(400, 250));
         setVisible(true);
