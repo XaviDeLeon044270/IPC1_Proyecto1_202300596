@@ -20,7 +20,7 @@ public class CodigoProductoFrame extends JFrame{
         codigoText = new JTextField();
         codigoText.setFont(principalFont);
         
-        JButton editarCuentaButton = new JButton("Editar Cuenta");
+        JButton editarCuentaButton = new JButton("Editar Producto");
         editarCuentaButton.setFont(principalFont);
         editarCuentaButton.setBackground(new Color(239, 246, 98));
         editarCuentaButton.setBorderPainted(false);

@@ -8,10 +8,13 @@ public class AdminFrame extends JFrame{
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 35);
     JLabel tituloLabel;
-
+    static boolean eliminarPaciente = false, eliminarDoctor = false, eliminarProducto = false;
     static DefaultTableModel pacientesModelTable = new DefaultTableModel();
     static DefaultTableModel doctoresModelTable = new DefaultTableModel();
     static DefaultTableModel productosModelTable = new DefaultTableModel();
+    static JTable pacientesTable = new JTable(pacientesModelTable);
+    static JTable doctoresTable = new JTable(doctoresModelTable);
+    static JTable productosTable = new JTable(productosModelTable);
 
     public void initialize (){
         JTabbedPane adminPane = new JTabbedPane();
@@ -27,7 +30,7 @@ public class AdminFrame extends JFrame{
             pacientesModelTable.addColumn("Código");
         }
 
-        JTable pacientesTable = new JTable(pacientesModelTable);
+        
 
         tituloLabel = new JLabel("Pacientes", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
@@ -57,6 +60,7 @@ public class AdminFrame extends JFrame{
         actualizarPacienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
+                eliminarPaciente = false;
                 CodigoPacienteFrame codigoPacienteFrame = new CodigoPacienteFrame();
                 codigoPacienteFrame.initialize();
             }
@@ -72,8 +76,9 @@ public class AdminFrame extends JFrame{
         eliminarPacienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //EliminarPacienteFrame eliminarPacienteFrame = new EliminarPacienteFrame();
-                //eliminarPacienteFrame.initialize();
+                eliminarPaciente = true;
+                CodigoPacienteFrame codigoPacienteFrame = new CodigoPacienteFrame();
+                codigoPacienteFrame.initialize();
             }
         });
 
@@ -113,7 +118,7 @@ public class AdminFrame extends JFrame{
             doctoresModelTable.addColumn("Código");
         }
 
-        JTable doctoresTable = new JTable(doctoresModelTable);
+        
 
         tituloLabel = new JLabel("Doctores", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
@@ -196,7 +201,6 @@ public class AdminFrame extends JFrame{
             productosModelTable.addColumn("Código");
         }
 
-        JTable productosTable = new JTable(productosModelTable);
 
         tituloLabel = new JLabel("Productos", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
@@ -306,11 +310,6 @@ public class AdminFrame extends JFrame{
             pacientesModelTable.setValueAt(paciente.getCodigo(), fila, 5);
         }
     }
-
-    //public void eliminarPacienteDeTabla(Paciente paciente) {
-        //DefaultTableModel modelo = (DefaultTableModel) tablaPacientes.getModel();
-        //modelo.removeRow(paciente);
-    //}
 
     public static void agregarDoctorATabla(Doctor doctor) {
         doctoresModelTable.addRow(new Object[]{doctor.getNombres(), doctor.getApellidos(), doctor.getEdad(), doctor.getGenero(), doctor.getContrasena(), doctor.getEspecialidad(), doctor.getTelefono(), doctor.getCodigo()});

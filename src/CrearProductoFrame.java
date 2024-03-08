@@ -46,16 +46,20 @@ public class CrearProductoFrame extends JFrame{
                     JOptionPane.showMessageDialog(null, "Rellena todos los campos");
                     return;
                 }
-                else{
-                    IniciarSesionFrame.codigoProducto = IniciarSesionFrame.codigoProducto + 1;
-                    String codigoString = Integer.toString(IniciarSesionFrame.codigoProducto);
-                    JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
-                    Producto nuevoProducto = new Producto(nombre, cantidad, descripcion, precio, codigoString);
-                    Main.productos.add(nuevoProducto);
-                    AdminFrame.agregarProductoATabla(nuevoProducto);
-                    dispose();
-                    return;
+                for (Producto producto : Main.productos){
+                    if (producto.getNombre().equals(nombre)){
+                        JOptionPane.showMessageDialog(null, "Ya existe un producto con ese nombre");
+                        return;
+                    }
                 }
+                IniciarSesionFrame.codigoProducto = IniciarSesionFrame.codigoProducto + 1;
+                String codigoString = Integer.toString(IniciarSesionFrame.codigoProducto);
+                JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
+                Producto nuevoProducto = new Producto(nombre, cantidad, descripcion, precio, codigoString);
+                Main.productos.add(nuevoProducto);
+                AdminFrame.agregarProductoATabla(nuevoProducto);
+                dispose();
+                return;
                 
             }
         });

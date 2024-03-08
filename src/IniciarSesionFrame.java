@@ -65,7 +65,7 @@ public class IniciarSesionFrame extends JFrame{
                 if (!encontrado) {
                     if (codigo.isEmpty() || contrasena.length() == 0) {
                         JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos");
-                    } else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Código o contraseña incorrectos");
                     }
                 }

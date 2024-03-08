@@ -20,31 +20,34 @@ public class CodigoPacienteFrame extends JFrame{
         codigoText = new JTextField();
         codigoText.setFont(principalFont);
         
-        JButton editarCuentaButton = new JButton("Editar Cuenta");
-        editarCuentaButton.setFont(principalFont);
-        editarCuentaButton.setBackground(new Color(239, 246, 98));
-        editarCuentaButton.setBorderPainted(false);
-        editarCuentaButton.addActionListener(new ActionListener() {
+        JButton ingresarCodigoButton = new JButton("Ingresar Código");
+        ingresarCodigoButton.setFont(principalFont);
+        ingresarCodigoButton.setBackground(new Color(239, 246, 98));
+        ingresarCodigoButton.setBorderPainted(false);
+        ingresarCodigoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String codigo = codigoText.getText();
-
-                boolean encontrado = false;
-
-                for (Paciente paciente : Main.pacientes) {
-                    if (paciente.getCodigo().equals(codigo)){
-                        EditarPacienteFrame actualizarPacienteFrame = new EditarPacienteFrame(paciente);
-                        actualizarPacienteFrame.initialize();
-                        dispose();
-                        encontrado = false;
-                    }
-                }
-                if (!encontrado) {
-                    if (codigo.isEmpty() ) {
-                        JOptionPane.showMessageDialog(null, "Rellena el campo de código");
-                    } 
-                    else{
-                        JOptionPane.showMessageDialog(null, "Código incorrecto");
+                if (codigo.isEmpty() ) {
+                    JOptionPane.showMessageDialog(null, "Rellena el campo de código");
+                } else {
+                    boolean encontrado = false;
+                    for (Paciente paciente : Main.pacientes) {
+                        if (paciente.getCodigo().equals(codigo)){
+                            encontrado = true;
+                            if(AdminFrame.eliminarPaciente == true){
+                                eliminarPaciente(paciente);
+                                break;
+                                
+                            } else if (AdminFrame.eliminarPaciente == false){
+                                EditarPacienteFrame actualizarPacienteFrame = new EditarPacienteFrame(paciente);
+                                actualizarPacienteFrame.initialize();
+                                break;
+                            }
+                         }
+                         if (!encontrado){
+                            JOptionPane.showMessageDialog(null, "Código incorrecto");
+                         }                        
                     }
                 }
             }
@@ -64,7 +67,7 @@ public class CodigoPacienteFrame extends JFrame{
         JPanel botonesPanel = new JPanel();
         botonesPanel.setLayout(new GridLayout(1,1,5,0));
         botonesPanel.setOpaque(false);
-        botonesPanel.add(editarCuentaButton);
+        botonesPanel.add(ingresarCodigoButton);
 
         JPanel principalPanel = new JPanel();
         principalPanel.setLayout(new BorderLayout());
@@ -76,10 +79,21 @@ public class CodigoPacienteFrame extends JFrame{
 
         add(principalPanel);
 
-        setTitle("Editar Cuenta de Paciente");
+        setTitle("Ingrese Código de Cuenta de Paciente");
         setSize(400, 250);
         setMinimumSize(new Dimension(400, 250));
         setVisible(true);
 
     }
+    public void eliminarPaciente(Paciente paciente) {
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas eliminar al paciente?", "Eliminar Paciente", JOptionPane.YES_NO_OPTION);
+            
+        if (opcion == JOptionPane.YES_OPTION) {
+            AdminFrame.pacientesModelTable.removeRow(Main.pacientes.indexOf(paciente));
+            Main.pacientes.remove(paciente);
+            JOptionPane.showMessageDialog(null, "Paciente eliminado");
+            dispose();
+        }
+    }
 }
+

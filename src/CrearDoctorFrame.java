@@ -63,6 +63,10 @@ public class CrearDoctorFrame extends JFrame{
                         JOptionPane.showMessageDialog(null, "Ya existe un doctor con esos nombres y apellidos");
                         return;
                     }
+                    else if (doctor.getTelefono().equals(telefono)){
+                        JOptionPane.showMessageDialog(null, "El número de teléfono ya pertenece a un doctor");
+                        return;
+                    }
                 }
                 IniciarSesionFrame.codigoDoctor = IniciarSesionFrame.codigoDoctor + 1;
                 String codigoString = Integer.toString(IniciarSesionFrame.codigoDoctor);
