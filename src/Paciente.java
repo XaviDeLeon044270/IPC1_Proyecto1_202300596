@@ -1,7 +1,5 @@
 public class Paciente {
     protected String nombres, apellidos, edad, genero, contrasena, codigo;
-    public Object getEdad;
-    ;
 
     public Paciente(String nombres, String apellidos, String edad, String genero, String contrasena, String codigo) {
         this.nombres = nombres;

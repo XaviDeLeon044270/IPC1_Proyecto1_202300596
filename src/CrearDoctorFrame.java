@@ -31,8 +31,7 @@ public class CrearDoctorFrame extends JFrame{
         contrasenaText.setFont(principalFont);
         JLabel especialidadLabel = new JLabel("Especialidad", SwingConstants.LEFT);
         especialidadLabel.setFont(principalFont);
-        String[] especialidad = {"Seleccione la opción", "Cardiólogo", "Pediatra", "Urologo", "Ginecologo", "Oftalmologo", "Dermatologo", "Oncologo", "Neurologo", "Psiquiatra"};
-        JComboBox<String> especialidadComboBox = new JComboBox<>(especialidad);
+        JComboBox<String> especialidadComboBox = new JComboBox<>(Main.especialidad);
         JLabel telefonoLabel = new JLabel("Telefono", SwingConstants.LEFT);
         telefonoLabel.setFont(principalFont);
         JSpinner telefonoSpinner = new JSpinner(new SpinnerNumberModel(11111111, 11111111, 99999999, 1));
@@ -59,16 +58,21 @@ public class CrearDoctorFrame extends JFrame{
                     JOptionPane.showMessageDialog(null, "Rellena todos los campos");
                     return;
                 }
-                else{
-                    IniciarSesionFrame.codigoDoctor = IniciarSesionFrame.codigoDoctor + 1;
-                    String codigoString = Integer.toString(IniciarSesionFrame.codigoDoctor);
-                    JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
-                    Doctor nuevoDoctor = new Doctor(nombres, apellidos, edad, genero, contrasena, especialidad, telefono, codigoString);
-                    Main.doctores.add(nuevoDoctor);
-                    AdminFrame.agregarDoctorATabla(nuevoDoctor);
-                    dispose();
-                    return;
+                for (Doctor doctor : Main.doctores){
+                    if (doctor.getNombres().equals(nombres) && doctor.getApellidos().equals(apellidos)){
+                        JOptionPane.showMessageDialog(null, "Ya existe un doctor con esos nombres y apellidos");
+                        return;
+                    }
                 }
+                IniciarSesionFrame.codigoDoctor = IniciarSesionFrame.codigoDoctor + 1;
+                String codigoString = Integer.toString(IniciarSesionFrame.codigoDoctor);
+                JOptionPane.showMessageDialog(null, "Este es el código de doc: \n\n" + codigoString);
+                Doctor nuevoDoctor = new Doctor(nombres, apellidos, edad, genero, contrasena, especialidad, telefono, codigoString);
+                Main.doctores.add(nuevoDoctor);
+                AdminFrame.agregarDoctorATabla(nuevoDoctor);
+                dispose();
+                return;
+                
                 
             }
         });
@@ -121,5 +125,6 @@ public class CrearDoctorFrame extends JFrame{
         setMinimumSize(new Dimension(700, 400));
         setVisible(true);
     }
+    
 
 }

@@ -24,7 +24,7 @@ public class CrearPacienteFrame extends JFrame{
         edadLabel.setFont(principalFont);
         JSpinner edadSpinner = new JSpinner(new SpinnerNumberModel(18, 18, 110, 1));
         edadSpinner.setFont(principalFont);
-        JLabel generoLabel = new JLabel("Apellidos", SwingConstants.LEFT);
+        JLabel generoLabel = new JLabel("Genero", SwingConstants.LEFT);
         generoLabel.setFont(principalFont);
         String[] generos = {"Seleccione la opción", "Masculino", "Femenino"};
         JComboBox<String> generoComboBox = new JComboBox<>(generos);
@@ -51,17 +51,20 @@ public class CrearPacienteFrame extends JFrame{
                     JOptionPane.showMessageDialog(null, "Rellena todos los campos");
                     return;
                 }
-                else{
-                    IniciarSesionFrame.codigoPaciente = IniciarSesionFrame.codigoPaciente + 1;
-                    String codigoString = Integer.toString(IniciarSesionFrame.codigoPaciente);
-                    JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
-                    Paciente nuevoPaciente = new Paciente(nombres, apellidos, edad, genero, contrasena, codigoString);
-                    Main.pacientes.add(nuevoPaciente);
-                    AdminFrame.agregarPacienteATabla(nuevoPaciente);
-                    dispose();
-                    return;
+                for (Paciente paciente : Main.pacientes){
+                    if (paciente.getNombres().equals(nombres) && paciente.getApellidos().equals(apellidos)){
+                        JOptionPane.showMessageDialog(null, "Ya existe un paciente con esos nombres y apellidos");
+                        return;
+                    }
                 }
-                
+                IniciarSesionFrame.codigoPaciente = IniciarSesionFrame.codigoPaciente + 1;
+                String codigoString = Integer.toString(IniciarSesionFrame.codigoPaciente);
+                JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
+                Paciente nuevoPaciente = new Paciente(nombres, apellidos, edad, genero, contrasena, codigoString);
+                Main.pacientes.add(nuevoPaciente);
+                AdminFrame.agregarPacienteATabla(nuevoPaciente);
+                dispose();
+                return;
             }
         });
 

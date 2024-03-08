@@ -44,11 +44,22 @@ public class IniciarSesionFrame extends JFrame{
                 for (Paciente paciente : Main.pacientes) {
                     if (paciente.getCodigo().equals(codigo) && paciente.getContrasena().equals(contrasena)){
                         JOptionPane.showMessageDialog(null, "Bienvenido " + paciente.getNombres() + " " + paciente.getApellidos(), "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-                        PacienteFrame pacienteFrame = new PacienteFrame();
+                        PacienteFrame pacienteFrame = new PacienteFrame(paciente);
                         pacienteFrame.initialize();
                         encontrado = true;
                         break;
                     }
+                }
+
+                for (Doctor doctor : Main.doctores) {
+                    
+                    if (doctor.getCodigo().equals(codigo) && doctor.getContrasena().equals(contrasena)){
+                        JOptionPane.showMessageDialog(null, "Bienvenido Dr. " + doctor.getNombres() + " " + doctor.getApellidos(), "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+                        DoctorFrame doctorFrame = new DoctorFrame(doctor);
+                        doctorFrame.initialize();
+                        encontrado = true;
+                        break;
+                    } 
                 }
 
                 if (!encontrado) {
@@ -57,17 +68,6 @@ public class IniciarSesionFrame extends JFrame{
                     } else{
                         JOptionPane.showMessageDialog(null, "Código o contraseña incorrectos");
                     }
-                }
-
-                for (Doctor doctor : Main.doctores) {
-                    
-                    if (doctor.getCodigo().equals(codigo) && doctor.getContrasena().equals(contrasena)){
-                        JOptionPane.showMessageDialog(null, "Bienvenido Dr. " + doctor.getNombres() + " " + doctor.getApellidos(), "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-                        AdminFrame adminFrame = new AdminFrame();
-                        adminFrame.initialize();
-                        encontrado = true;
-                        break;
-                    } 
                 }
             }
         });
@@ -131,11 +131,6 @@ public class IniciarSesionFrame extends JFrame{
         setMinimumSize(new Dimension(600, 450));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-    }
-
-    public static void main (String[] args){
-        IniciarSesionFrame frame = new IniciarSesionFrame();
-        frame.initialize();
     }
     
 }

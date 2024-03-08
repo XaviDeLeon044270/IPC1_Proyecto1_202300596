@@ -1,6 +1,5 @@
 public class Doctor {
     protected String nombres, apellidos, edad, genero, contrasena, especialidad, telefono, codigo;
-    ;
 
     public Doctor(String nombres, String apellidos, String edad, String genero, String contrasena, String especialidad, String telefono, String codigo) {
         this.nombres = nombres;

@@ -9,6 +9,13 @@ public class PacienteFrame extends JFrame{
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 25);
     JTextField citaText;
     static DefaultTableModel citasModelTable = new DefaultTableModel();
+
+    private Paciente paciente;
+
+    public PacienteFrame(Paciente paciente) {
+        this.paciente = paciente;
+    }
+    
     public void initialize (){
         JTabbedPane pacientePane = new JTabbedPane();
 
@@ -30,8 +37,7 @@ public class PacienteFrame extends JFrame{
         especialidadLabel.setPreferredSize(new Dimension(150, 40));
         especialidadLabel.setMaximumSize(new Dimension(150, 40));
         especialidadLabel.setMinimumSize(new Dimension(150, 40));
-        String[] especialidad = {"Seleccione la opción", "Cardiólogo", "Pediatra", "Urologo", "Ginecologo", "Oftalmologo", "Dermatologo", "Oncologo", "Neurologo", "Psiquiatra"};
-        JComboBox<String> especialidadComboBox = new JComboBox<>(especialidad);
+        JComboBox<String> especialidadComboBox = new JComboBox<>(Main.especialidad);
         especialidadComboBox.setPreferredSize(new Dimension(150, 40));
         especialidadComboBox.setMaximumSize(new Dimension(150, 40));
         especialidadComboBox.setMinimumSize(new Dimension(150, 40));
@@ -188,9 +194,23 @@ public class PacienteFrame extends JFrame{
 
         JPanel farmaciaPanel = new JPanel(new BorderLayout());
 
+        JButton editarPerfilButton = new JButton("Editar Perfil");
+        editarPerfilButton.setFont(principalFont);
+        editarPerfilButton.setBackground(new Color(239, 246, 98));
+        editarPerfilButton.setBorderPainted(false);
+        editarPerfilButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                EditarPacienteFrame editarPacienteFrame = new EditarPacienteFrame(paciente);
+                editarPacienteFrame.initialize();
+            }
+        });
+
         pacientePane.addTab("Solicitar Cita", solicitarCitaPanel);
         pacientePane.addTab("Estado de Cita", estadoCitasPanel);
         pacientePane.addTab("Farmacia", farmaciaPanel);
+        pacientePane.addTab("", new JPanel());
+        pacientePane.setTabComponentAt(3, editarPerfilButton);
 
         add(pacientePane);
 
