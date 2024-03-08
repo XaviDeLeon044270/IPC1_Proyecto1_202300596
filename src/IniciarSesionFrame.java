@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Frame extends JFrame{
+public class IniciarSesionFrame extends JFrame{
     
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 35);
@@ -134,7 +134,7 @@ public class Frame extends JFrame{
     }
 
     public static void main (String[] args){
-        Frame frame = new Frame();
+        IniciarSesionFrame frame = new IniciarSesionFrame();
         frame.initialize();
     }
     

@@ -1,25 +1,30 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
-public class CrearProductoFrame extends JFrame{
+public class EditarProductoFrame extends JFrame{
 
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 35);
     JTextField nombreText, descripcionText;
+    JSpinner cantidadSpinner, precioSpinner;
     JLabel tituloLabel;
+    private Producto producto;
+
+    public EditarProductoFrame(Producto producto) {
+        this.producto = producto;
+    }
 
     public void initialize(){
-        
+
         JLabel nombreLabel = new JLabel("Nombre", SwingConstants.LEFT);
         nombreLabel.setFont(principalFont);
         nombreText = new JTextField();
         nombreText.setFont(principalFont);
         JLabel cantidadLabel = new JLabel("Cantidad", SwingConstants.LEFT);
         cantidadLabel.setFont(principalFont);
-        JSpinner cantidadSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 999, 1));
+        cantidadSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 999, 1));
         cantidadSpinner.setFont(principalFont);
         JLabel descripcionLabel = new JLabel("Descripción", SwingConstants.LEFT);
         descripcionLabel.setFont(principalFont);
@@ -27,14 +32,14 @@ public class CrearProductoFrame extends JFrame{
         descripcionText.setFont(principalFont);
         JLabel precioLabel = new JLabel("Precio", SwingConstants.LEFT);
         precioLabel.setFont(principalFont);
-        JSpinner precioSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 999, 1));
+        precioSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 999, 1));
         precioSpinner.setFont(principalFont);
 
-        JButton crearProductoButton = new JButton("Crear Producto");
-        crearProductoButton.setFont(principalFont);
-        crearProductoButton.setBackground(new Color(239, 246, 98));
-        crearProductoButton.setBorderPainted(false);
-        crearProductoButton.addActionListener(new ActionListener() {
+        JButton actualizarCuentaButton = new JButton("Editar Cuenta");
+        actualizarCuentaButton.setFont(principalFont);
+        actualizarCuentaButton.setBackground(new Color(239, 246, 98));
+        actualizarCuentaButton.setBorderPainted(false);
+        actualizarCuentaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombre = nombreText.getText();
@@ -42,25 +47,18 @@ public class CrearProductoFrame extends JFrame{
                 String descripcion = descripcionText.getText();
                 String precio = precioSpinner.getValue().toString();
                 
-                if (nombre.isEmpty() || descripcion.isEmpty()) {
+                if (nombre.isEmpty() || cantidad.isEmpty() || descripcion.isEmpty() || precio.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Rellena todos los campos");
                     return;
                 }
                 else{
-                    IniciarSesionFrame.codigoProducto = IniciarSesionFrame.codigoProducto + 1;
-                    String codigoString = Integer.toString(IniciarSesionFrame.codigoProducto);
-                    JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
-                    Producto nuevoProducto = new Producto(nombre, cantidad, descripcion, precio, codigoString);
-                    Main.productos.add(nuevoProducto);
-                    AdminFrame.agregarProductoATabla(nuevoProducto);
-                    dispose();
-                    return;
+                    actualizarProducto();
                 }
                 
             }
         });
 
-        tituloLabel = new JLabel("Crear Producto", SwingConstants.CENTER);
+        tituloLabel = new JLabel("Editar Cuenta de Paciente", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
 
         JPanel tituloPanel = new JPanel(new GridLayout(0,1,0,1));        
@@ -69,7 +67,7 @@ public class CrearProductoFrame extends JFrame{
         tituloPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
 
         JPanel formularioPanel = new JPanel();
-        formularioPanel.setLayout(new GridLayout(4,1,5,5));
+        formularioPanel.setLayout(new GridLayout(5,1,5,5));
         formularioPanel.setOpaque(false);
         formularioPanel.add(nombreLabel);
         formularioPanel.add(nombreText);
@@ -82,9 +80,9 @@ public class CrearProductoFrame extends JFrame{
         formularioPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
 
         JPanel botonesPanel = new JPanel();
-        botonesPanel.setLayout(new GridLayout(1,1,5,-15));
+        botonesPanel.setLayout(new GridLayout(1,1,5,0));
         botonesPanel.setOpaque(false);
-        botonesPanel.add(crearProductoButton);
+        botonesPanel.add(actualizarCuentaButton);
         botonesPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
         
         JPanel principalPanel = new JPanel();
@@ -97,10 +95,36 @@ public class CrearProductoFrame extends JFrame{
 
         add(principalPanel);
 
-        setTitle("Crear Producto");
+        setTitle("Editar Producto");
         setSize(300, 300);
-        setMinimumSize(new Dimension(450, 400));
+        setMinimumSize(new Dimension(450, 450));
         setVisible(true);
+
+        nombreText.setText(producto.getNombre());
+        cantidadSpinner.setValue(producto.getCantidad());
+        descripcionText.setText(producto.getDescripcion());
+        precioSpinner.setValue(producto.getPrecio());
+
+    }
+
+    private void actualizarProducto() {
+        
+        String nombre = nombreText.getText();
+        String cantidad = cantidadSpinner.getValue().toString();
+        String descripcion = descripcionText.getText();
+        String precio = precioSpinner.getValue().toString();
+
+        producto.setNombre(nombre);
+        producto.setCantidad(cantidad);
+        producto.setDescripcion(descripcion);
+        producto.setPrecio(precio);
+        
+        JOptionPane.showMessageDialog(null, "Se han actualizado los datos del producto.");
+
+        AdminFrame.actualizarProductoEnTabla(producto);
+
+        dispose();
     }
 
 }
+

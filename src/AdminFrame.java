@@ -226,8 +226,8 @@ public class AdminFrame extends JFrame{
         actualizarProductoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //ActualizarProductoFrame actualizarDoctorFrame = new ActualizarDoctorFrame();
-                //actualizarProductoFrame.initialize();
+                CodigoProductoFrame codigoProductoFrame = new CodigoProductoFrame();
+                codigoProductoFrame.initialize();
             }
         });
 
@@ -307,6 +307,11 @@ public class AdminFrame extends JFrame{
         }
     }
 
+    //public void eliminarPacienteDeTabla(Paciente paciente) {
+        //DefaultTableModel modelo = (DefaultTableModel) tablaPacientes.getModel();
+        //modelo.removeRow(paciente);
+    //}
+
     public static void agregarDoctorATabla(Doctor doctor) {
         doctoresModelTable.addRow(new Object[]{doctor.getNombres(), doctor.getApellidos(), doctor.getEdad(), doctor.getGenero(), doctor.getContrasena(), doctor.getEspecialidad(), doctor.getTelefono(), doctor.getCodigo()});
     }
@@ -336,5 +341,24 @@ public class AdminFrame extends JFrame{
 
     public static void agregarProductoATabla(Producto producto) {
         productosModelTable.addRow(new Object[]{producto.getNombre(), producto.getCantidad(), producto.getDescripcion(), producto.getPrecio(), producto.getCodigo()});
+    }
+
+    public static void actualizarProductoEnTabla(Producto producto) {
+        
+        int fila = -1;
+        for (int i = 0; i < productosModelTable.getRowCount(); i++) {
+            if (productosModelTable.getValueAt(i, 4).equals(producto.getCodigo())) {
+                fila = i;
+                break;
+            }
+        }
+    
+        if (fila != -1) {
+            productosModelTable.setValueAt(producto.getNombre(), fila, 0);
+            productosModelTable.setValueAt(producto.getCantidad(), fila, 1);
+            productosModelTable.setValueAt(producto.getDescripcion(), fila, 2);
+            productosModelTable.setValueAt(producto.getPrecio(), fila, 3);
+            productosModelTable.setValueAt(producto.getCodigo(), fila, 4);
+        }
     }
 }

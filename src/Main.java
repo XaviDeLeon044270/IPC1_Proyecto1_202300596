@@ -13,7 +13,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             AdminFrame adminFrame = new AdminFrame();
             adminFrame.initialize();
-            Frame frame = new Frame();
+            IniciarSesionFrame frame = new IniciarSesionFrame();
             frame.setVisible(true);
         });
 

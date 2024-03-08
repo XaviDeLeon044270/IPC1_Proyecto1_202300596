@@ -60,8 +60,8 @@ public class CrearDoctorFrame extends JFrame{
                     return;
                 }
                 else{
-                    Frame.codigoDoctor = Frame.codigoDoctor + 1;
-                    String codigoString = Integer.toString(Frame.codigoDoctor);
+                    IniciarSesionFrame.codigoDoctor = IniciarSesionFrame.codigoDoctor + 1;
+                    String codigoString = Integer.toString(IniciarSesionFrame.codigoDoctor);
                     JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
                     Doctor nuevoDoctor = new Doctor(nombres, apellidos, edad, genero, contrasena, especialidad, telefono, codigoString);
                     Main.doctores.add(nuevoDoctor);

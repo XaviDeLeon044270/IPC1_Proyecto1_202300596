@@ -52,8 +52,8 @@ public class CrearPacienteFrame extends JFrame{
                     return;
                 }
                 else{
-                    Frame.codigoPaciente = Frame.codigoPaciente + 1;
-                    String codigoString = Integer.toString(Frame.codigoPaciente);
+                    IniciarSesionFrame.codigoPaciente = IniciarSesionFrame.codigoPaciente + 1;
+                    String codigoString = Integer.toString(IniciarSesionFrame.codigoPaciente);
                     JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
                     Paciente nuevoPaciente = new Paciente(nombres, apellidos, edad, genero, contrasena, codigoString);
                     Main.pacientes.add(nuevoPaciente);
