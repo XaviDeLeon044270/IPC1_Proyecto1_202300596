@@ -20,31 +20,34 @@ public class CodigoProductoFrame extends JFrame{
         codigoText = new JTextField();
         codigoText.setFont(principalFont);
         
-        JButton editarCuentaButton = new JButton("Editar Producto");
-        editarCuentaButton.setFont(principalFont);
-        editarCuentaButton.setBackground(new Color(239, 246, 98));
-        editarCuentaButton.setBorderPainted(false);
-        editarCuentaButton.addActionListener(new ActionListener() {
+        JButton ingresarCodigoButton = new JButton("Ingresar Código");
+        ingresarCodigoButton.setFont(principalFont);
+        ingresarCodigoButton.setBackground(new Color(239, 246, 98));
+        ingresarCodigoButton.setBorderPainted(false);
+        ingresarCodigoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String codigo = codigoText.getText();
-
-                boolean encontrado = false;
-
-                for (Producto producto : Main.productos) {
-                    if (producto.getCodigo().equals(codigo)){
-                        EditarProductoFrame actualizarProductoFrame = new EditarProductoFrame(producto);
-                        actualizarProductoFrame.initialize();
-                        dispose();
-                        encontrado = false;
-                    }
-                }
-                if (!encontrado) {
-                    if (codigo.isEmpty() ) {
-                        JOptionPane.showMessageDialog(null, "Rellena el campo de código");
-                    } 
-                    else{
-                        JOptionPane.showMessageDialog(null, "Código incorrecto");
+                if (codigo.isEmpty() ) {
+                    JOptionPane.showMessageDialog(null, "Rellena el campo de código");
+                } else {
+                    boolean encontrado = false;
+                    for (Producto producto : Main.productos) {
+                        if (producto.getCodigo().equals(codigo)){
+                            encontrado = true;
+                            if(AdminFrame.eliminarProducto == true){
+                                eliminarProducto(producto);
+                                break;
+                                
+                            } else if (AdminFrame.eliminarProducto == false){
+                                EditarProductoFrame actualizarProductoFrame = new EditarProductoFrame(producto);
+                                actualizarProductoFrame.initialize();
+                                break;
+                            }
+                         }
+                         if (!encontrado){
+                            JOptionPane.showMessageDialog(null, "Código incorrecto");
+                         }                        
                     }
                 }
             }
@@ -64,7 +67,7 @@ public class CodigoProductoFrame extends JFrame{
         JPanel botonesPanel = new JPanel();
         botonesPanel.setLayout(new GridLayout(1,1,5,0));
         botonesPanel.setOpaque(false);
-        botonesPanel.add(editarCuentaButton);
+        botonesPanel.add(ingresarCodigoButton);
 
         JPanel principalPanel = new JPanel();
         principalPanel.setLayout(new BorderLayout());
@@ -82,4 +85,14 @@ public class CodigoProductoFrame extends JFrame{
         setVisible(true);
 
     }
+    public void eliminarProducto(Producto producto) {
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas eliminar el producto?", "Eliminar Producto", JOptionPane.YES_NO_OPTION);
+    if (opcion == JOptionPane.YES_OPTION) {
+        JOptionPane.showMessageDialog(null, "Producto " + producto.getNombre()+ " eliminado");
+        AdminFrame.productosModelTable.removeRow(Main.productos.indexOf(producto));
+        Main.productos.remove(producto);
+        
+        dispose();
+    }
+}
 }

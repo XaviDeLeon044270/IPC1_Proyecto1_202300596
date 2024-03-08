@@ -89,9 +89,10 @@ public class CodigoPacienteFrame extends JFrame{
             int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas eliminar al paciente?", "Eliminar Paciente", JOptionPane.YES_NO_OPTION);
             
         if (opcion == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Paciente " + paciente.getNombres() + " " + paciente.getApellidos() + " eliminado");
             AdminFrame.pacientesModelTable.removeRow(Main.pacientes.indexOf(paciente));
             Main.pacientes.remove(paciente);
-            JOptionPane.showMessageDialog(null, "Paciente eliminado");
+            
             dispose();
         }
     }

@@ -20,7 +20,7 @@ public class CodigoDoctorFrame extends JFrame{
         codigoText = new JTextField();
         codigoText.setFont(principalFont);
         
-        JButton ingresarCodigoButton = new JButton("Editar Cuenta");
+        JButton ingresarCodigoButton = new JButton("Ingresar Código");
         ingresarCodigoButton.setFont(principalFont);
         ingresarCodigoButton.setBackground(new Color(239, 246, 98));
         ingresarCodigoButton.setBorderPainted(false);
@@ -85,13 +85,13 @@ public class CodigoDoctorFrame extends JFrame{
         setVisible(true);
 
     }
-    public void eliminarDoctor(Paciente paciente) {
-            int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas eliminar al paciente?", "Eliminar Paciente", JOptionPane.YES_NO_OPTION);
-            
+    public void eliminarDoctor(Doctor doctor) {
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas eliminar al doctor?", "Eliminar Doctor", JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
-            AdminFrame.pacientesModelTable.removeRow(Main.pacientes.indexOf(paciente));
-            Main.pacientes.remove(paciente);
-            JOptionPane.showMessageDialog(null, "Paciente eliminado");
+            JOptionPane.showMessageDialog(null, "Doctor " + doctor.getNombres() + " " + doctor.getApellidos() + " eliminado");
+            AdminFrame.doctoresModelTable.removeRow(Main.doctores.indexOf(doctor));
+            Main.doctores.remove(doctor);
+            
             dispose();
         }
     }

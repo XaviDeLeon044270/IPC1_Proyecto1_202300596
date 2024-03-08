@@ -163,8 +163,9 @@ public class AdminFrame extends JFrame{
         eliminarDoctorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //EliminarDoctorFrame eliminarDoctorFrame = new EliminarDoctorFrame();
-                //eliminarDoctorFrame.initialize();
+                eliminarDoctor = true;
+                CodigoDoctorFrame codigoDoctorFrame = new CodigoDoctorFrame();
+                codigoDoctorFrame.initialize();
             }
         });
 
@@ -245,8 +246,9 @@ public class AdminFrame extends JFrame{
         eliminarProductoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //EliminarProductoFrame eliminarProductoFrame = new EliminarProductoFrame();
-                //eliminarProductoFrame.initialize();
+                eliminarProducto = true;
+                CodigoProductoFrame codigoProductoFrame = new CodigoProductoFrame();
+                codigoProductoFrame.initialize();
             }
         });
 
