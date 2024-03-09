@@ -30,6 +30,10 @@ public class AdminFrame extends JFrame{
             pacientesModelTable.addColumn("Código");
         }
 
+        JScrollPane scrollPane = new JScrollPane(pacientesTable);
+        pacientesTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        pacientesTable.setFillsViewportHeight(true);
+        scrollPane.setPreferredSize(new Dimension(500, 70));   
         
 
         tituloLabel = new JLabel("Pacientes", SwingConstants.CENTER);
@@ -184,6 +188,8 @@ public class AdminFrame extends JFrame{
         botonesDoctorPanel.add(eliminarDoctorButton);
         botonesDoctorPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
 
+        
+
         doctoresPanel.setLayout(new BorderLayout());
         doctoresPanel.setBackground(new Color(98, 246, 107));
         doctoresPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));               
@@ -285,7 +291,7 @@ public class AdminFrame extends JFrame{
 
         setTitle("Administrador");
         setSize(300, 300);
-        setMinimumSize(new Dimension(800, 450));
+        setMinimumSize(new Dimension(800, 600));
         setVisible(true);
     }
 

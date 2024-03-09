@@ -192,7 +192,30 @@ public class PacienteFrame extends JFrame{
         estadoCitasPanel.add(new JScrollPane(citasTable), BorderLayout.CENTER);
         estadoCitasPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
-        JPanel farmaciaPanel = new JPanel(new BorderLayout());
+        JLabel farmaciaLabel = new JLabel("Nuestros productos disponibles en farmacia", SwingConstants.CENTER);
+        farmaciaLabel.setFont(tituloFont);
+
+        JPanel productosPanel = new JPanel(new GridLayout(2,0,0,1));
+        productosPanel.setBackground(new Color(98, 246, 107));
+        productosPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        productosPanel.add(farmaciaLabel, BorderLayout.NORTH);
+        JPanel botonesPanel = new JPanel(new GridLayout(4,10,0,1));
+        botonesPanel.setBackground(new Color(98, 246, 107));
+        for (Producto producto : Main.productos){
+            JButton productoButton = new JButton(producto.getNombre());
+            productoButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            productoButton.setFont(principalFont);
+            productoButton.setBackground(new Color(239, 246, 98));
+            productoButton.setBorderPainted(false);
+            productoButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e){
+                    JOptionPane.showMessageDialog(null, "Producto: " + producto.getNombre() + "\nPrecio: Q" + producto.getPrecio() + ".00" + "\nDescripción: " + producto.getDescripcion());
+                }
+            });
+            botonesPanel.add(productoButton);
+        }
+        productosPanel.add(botonesPanel, BorderLayout.CENTER);
 
         JButton editarPerfilButton = new JButton("Editar Perfil");
         editarPerfilButton.setFont(principalFont);
@@ -208,7 +231,7 @@ public class PacienteFrame extends JFrame{
 
         pacientePane.addTab("Solicitar Cita", solicitarCitaPanel);
         pacientePane.addTab("Estado de Cita", estadoCitasPanel);
-        pacientePane.addTab("Farmacia", farmaciaPanel);
+        pacientePane.addTab("Farmacia", productosPanel);
         pacientePane.addTab("", new JPanel());
         pacientePane.setTabComponentAt(3, editarPerfilButton);
 
