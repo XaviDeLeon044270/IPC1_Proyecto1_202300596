@@ -58,7 +58,7 @@ public class EditarProductoFrame extends JFrame{
             }
         });
 
-        tituloLabel = new JLabel("Editar Cuenta de Paciente", SwingConstants.CENTER);
+        tituloLabel = new JLabel("Editar producto", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
 
         JPanel tituloPanel = new JPanel(new GridLayout(0,1,0,1));        
