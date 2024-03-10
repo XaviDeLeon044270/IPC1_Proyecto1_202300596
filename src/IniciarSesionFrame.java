@@ -9,7 +9,7 @@ public class IniciarSesionFrame extends JFrame{
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 35);
     JTextField codigoText, contrasenaText;
     JLabel tituloLabel;
-    public static int codigoPaciente = 10000, codigoDoctor = 20000, codigoProducto = 30000;
+    
 
     public void initialize(){
 

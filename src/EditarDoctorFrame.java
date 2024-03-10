@@ -44,6 +44,7 @@ public class EditarDoctorFrame extends JFrame{
         especialidadLabel.setFont(principalFont);
         String[] especialidad = {"Seleccione la opción", "Cardiólogo", "Pediatra", "Urologo", "Ginecologo", "Oftalmologo", "Dermatologo", "Oncologo", "Neurologo", "Psiquiatra"};
         especialidadComboBox = new JComboBox<>(especialidad);
+        especialidadComboBox.setFont(principalFont);
         JLabel telefonoLabel = new JLabel("Telefono", SwingConstants.LEFT);
         telefonoLabel.setFont(principalFont);
         telefonoSpinner = new JSpinner(new SpinnerNumberModel(11111111, 11111111, 99999999, 1));

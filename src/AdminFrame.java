@@ -1,40 +1,40 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class AdminFrame extends JFrame{
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 35);
     JLabel tituloLabel;
-    static boolean eliminarPaciente = false, eliminarDoctor = false, eliminarProducto = false;
-    static DefaultTableModel pacientesModelTable = new DefaultTableModel();
-    static DefaultTableModel doctoresModelTable = new DefaultTableModel();
-    static DefaultTableModel productosModelTable = new DefaultTableModel();
-    static JTable pacientesTable = new JTable(pacientesModelTable);
-    static JTable doctoresTable = new JTable(doctoresModelTable);
-    static JTable productosTable = new JTable(productosModelTable);
-
+    public static boolean eliminarPaciente = false, eliminarDoctor = false, eliminarProducto = false;
+    public static DefaultTableModel pacientesModelTable = new DefaultTableModel();
+    public static DefaultTableModel doctoresModelTable = new DefaultTableModel();
+    public static DefaultTableModel productosModelTable = new DefaultTableModel();
+    public static JTable pacientesTable = new JTable(pacientesModelTable);
+    public static JTable doctoresTable = new JTable(doctoresModelTable);
+    public static JTable productosTable = new JTable(productosModelTable);
+    public static String especialidad1, especialidad2, especialidad3;
+    public static int cantidad1, cantidad2, cantidad3;
+    public static DefaultCategoryDataset datosGrafica;
+    public static ChartPanel graficaChartPanel;
+    
     public void initialize (){
         JTabbedPane adminPane = new JTabbedPane();
 
-        JPanel pacientesPanel = new JPanel(new BorderLayout());
-
-        if (pacientesModelTable.getColumnCount() == 0) {
-            pacientesModelTable.addColumn("Nombres");
-            pacientesModelTable.addColumn("Apellidos");
-            pacientesModelTable.addColumn("Edad");
-            pacientesModelTable.addColumn("Genero");
-            pacientesModelTable.addColumn("Contraseña");
-            pacientesModelTable.addColumn("Código");
-        }
-
-        JScrollPane scrollPane = new JScrollPane(pacientesTable);
-        pacientesTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
-        pacientesTable.setFillsViewportHeight(true);
-        scrollPane.setPreferredSize(new Dimension(500, 70));   
-        
+        JPanel pacientesPanel = new JPanel(new BorderLayout());   
 
         tituloLabel = new JLabel("Pacientes", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
@@ -111,19 +111,6 @@ public class AdminFrame extends JFrame{
 
         JPanel doctoresPanel = new JPanel(new BorderLayout());
 
-        if (doctoresModelTable.getColumnCount() == 0) {
-            doctoresModelTable.addColumn("Nombres");
-            doctoresModelTable.addColumn("Apellidos");
-            doctoresModelTable.addColumn("Edad");
-            doctoresModelTable.addColumn("Genero");
-            doctoresModelTable.addColumn("Contraseña");
-            doctoresModelTable.addColumn("Especialidad");
-            doctoresModelTable.addColumn("Teléfono");
-            doctoresModelTable.addColumn("Código");
-        }
-
-        
-
         tituloLabel = new JLabel("Doctores", SwingConstants.CENTER);
         tituloLabel.setFont(tituloFont);
 
@@ -138,6 +125,7 @@ public class AdminFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 CrearDoctorFrame crearDoctorFrame = new CrearDoctorFrame();
+                actualizarGraficaEspecialidades();
                 crearDoctorFrame.initialize();
             }
         });
@@ -188,25 +176,60 @@ public class AdminFrame extends JFrame{
         botonesDoctorPanel.add(eliminarDoctorButton);
         botonesDoctorPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
 
+        long cantidadCardiologos = cantidadDoctoresPorEspecialidad("Cardiólogo"), cantidadPediatras = cantidadDoctoresPorEspecialidad("Pediatra"), cantidadUrologos = cantidadDoctoresPorEspecialidad("Urologo");
+        long cantidadGinecologos = cantidadDoctoresPorEspecialidad("Ginecologo"), cantidadOftalmologos = cantidadDoctoresPorEspecialidad("Oftalmologo"), cantidadDermatologos = cantidadDoctoresPorEspecialidad("Dermatologo");
+        long cantidadNeurologos = cantidadDoctoresPorEspecialidad("Neurologo"), cantidadPsiquiatras = cantidadDoctoresPorEspecialidad("Psiquiatra");
+        Map<String, Long> cantidadPorEspecialidad = new HashMap<>();
+        cantidadPorEspecialidad.put("Cardiólogo", cantidadCardiologos);
+        cantidadPorEspecialidad.put("Pediatra", cantidadPediatras);
+        cantidadPorEspecialidad.put("Urologo", cantidadUrologos);
+        cantidadPorEspecialidad.put("Ginecologo", cantidadGinecologos);
+        cantidadPorEspecialidad.put("Oftalmologo", cantidadOftalmologos);
+        cantidadPorEspecialidad.put("Dermatologo", cantidadDermatologos);
+        cantidadPorEspecialidad.put("Neurologo", cantidadNeurologos);
+        cantidadPorEspecialidad.put("Psiquiatra", cantidadPsiquiatras);
+
+        List<Map.Entry<String, Long>> lista = new ArrayList<>(cantidadPorEspecialidad.entrySet());
+        lista.sort(Map.Entry.comparingByValue(Collections.reverseOrder()));
         
+        especialidad1 = lista.get(0).getKey();
+        especialidad2 = lista.get(1).getKey();
+        especialidad3 = lista.get(2).getKey();
+
+        cantidad1 = lista.get(0).getValue().intValue();
+        cantidad2 = lista.get(1).getValue().intValue();
+        cantidad3 = lista.get(2).getValue().intValue();
+
+        datosGrafica = new DefaultCategoryDataset();
+        datosGrafica.setValue(cantidad1, "Especialidad", especialidad1);
+        datosGrafica.setValue(cantidad2, "Especialidad", especialidad2);
+        datosGrafica.setValue(cantidad3, "Especialidad", especialidad3);
+
+        JFreeChart graficaEspecialidades = ChartFactory.createBarChart("Especialidades", "Especialidad", "Cantidad", datosGrafica, PlotOrientation.VERTICAL, false, true, false);
+
+        graficaChartPanel = new ChartPanel(graficaEspecialidades);
+        graficaChartPanel.setMouseWheelEnabled(true);
+        graficaChartPanel.setPreferredSize(new Dimension(200, 200));
+
+        JPanel graficaDoctorPanel = new JPanel(new GridLayout(2,0,0,1));
+        graficaDoctorPanel.setOpaque(false);
+        graficaDoctorPanel.add(botonesDoctorPanel);
+        graficaDoctorPanel.add(graficaChartPanel);
+
+        pack();
+        repaint();
 
         doctoresPanel.setLayout(new BorderLayout());
         doctoresPanel.setBackground(new Color(98, 246, 107));
         doctoresPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));               
         doctoresPanel.add(tituloDoctorPanel, BorderLayout.NORTH);
         doctoresPanel.add(new JScrollPane(doctoresTable), BorderLayout.WEST);
-        doctoresPanel.add(botonesDoctorPanel, BorderLayout.EAST);
+        doctoresPanel.add(graficaDoctorPanel, BorderLayout.EAST);
 
 
         JPanel productosPanel = new JPanel(new BorderLayout());
 
-        if (productosModelTable.getColumnCount() == 0) {
-            productosModelTable.addColumn("Nombre");
-            productosModelTable.addColumn("Cantidad");
-            productosModelTable.addColumn("Descripción");
-            productosModelTable.addColumn("Precio");
-            productosModelTable.addColumn("Código");
-        }
+        
 
 
         tituloLabel = new JLabel("Productos", SwingConstants.CENTER);
@@ -298,7 +321,7 @@ public class AdminFrame extends JFrame{
     public static void agregarPacienteATabla(Paciente paciente) {
         pacientesModelTable.addRow(new Object[]{paciente.getNombres(), paciente.getApellidos(), paciente.getEdad(), paciente.getGenero(), paciente.getContrasena(), paciente.getCodigo()});
     }
-
+    
     public static void actualizarPacienteEnTabla(Paciente paciente) {
         
         int fila = -1;
@@ -367,5 +390,24 @@ public class AdminFrame extends JFrame{
             productosModelTable.setValueAt(producto.getPrecio(), fila, 3);
             productosModelTable.setValueAt(producto.getCodigo(), fila, 4);
         }
+    }
+
+    public static long cantidadDoctoresPorEspecialidad(String especialidadBuscada) {
+        return Main.doctores.stream().filter(doctor -> doctor.getEspecialidad().equals(especialidadBuscada)).count();
+    }
+
+    public void actualizarGraficaEspecialidades() {
+        
+        datosGrafica.clear();
+
+        cantidad1 = (int) cantidadDoctoresPorEspecialidad(especialidad1);
+        cantidad2 = (int) cantidadDoctoresPorEspecialidad(especialidad2);
+        cantidad3 = (int) cantidadDoctoresPorEspecialidad(especialidad3);
+    
+        datosGrafica.setValue(cantidad1, "Especialidad", especialidad1);
+        datosGrafica.setValue(cantidad2, "Especialidad", especialidad2);
+        datosGrafica.setValue(cantidad3, "Especialidad", especialidad3);
+    
+        graficaChartPanel.repaint();
     }
 }

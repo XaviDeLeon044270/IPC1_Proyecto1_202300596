@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -8,7 +10,8 @@ public class PacienteFrame extends JFrame{
     final private Font principalFont = new Font("Times New Roman", Font.PLAIN, 20);
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 25);
     JTextField citaText;
-    static DefaultTableModel citasModelTable = new DefaultTableModel();
+    private static DefaultTableModel citasModelTable = new DefaultTableModel();
+    private static int contadorCitas = 0;
 
     private Paciente paciente;
 
@@ -31,23 +34,42 @@ public class PacienteFrame extends JFrame{
         citaText.setPreferredSize(new Dimension(700, 80));
         citaText.setMaximumSize(new Dimension(700, 80));
         citaText.setMinimumSize(new Dimension(700, 80));
-
+        
         JLabel especialidadLabel = new JLabel("Especialidad", SwingConstants.LEFT);
         especialidadLabel.setFont(principalFont);
         especialidadLabel.setPreferredSize(new Dimension(150, 40));
         especialidadLabel.setMaximumSize(new Dimension(150, 40));
         especialidadLabel.setMinimumSize(new Dimension(150, 40));
-        JComboBox<String> especialidadComboBox = new JComboBox<>(Main.especialidad);
+
+        ArrayList<String> especialidadesDoctores = new ArrayList<>();
+        especialidadesDoctores.add("Seleccione una especialidad");
+            for (Doctor doctor : Main.doctores) {
+                String especialidad = doctor.getEspecialidad();
+                if (!especialidadesDoctores.contains(especialidad)) {
+                    especialidadesDoctores.add(especialidad);
+                }
+            }
+
+        String[] especialidadArray = especialidadesDoctores.toArray(new String[0]);
+
+        JComboBox<String> especialidadComboBox = new JComboBox<>(especialidadArray);
+        especialidadComboBox.setFont(principalFont);
         especialidadComboBox.setPreferredSize(new Dimension(150, 40));
         especialidadComboBox.setMaximumSize(new Dimension(150, 40));
         especialidadComboBox.setMinimumSize(new Dimension(150, 40));
+        
         JLabel doctorLabel = new JLabel("Doctor", SwingConstants.LEFT);
         doctorLabel.setFont(principalFont);
         doctorLabel.setPreferredSize(new Dimension(150, 40));
         doctorLabel.setMaximumSize(new Dimension(150, 40));
         doctorLabel.setMinimumSize(new Dimension(150, 40));
-        String[] doctor = {"Seleccione la opción", "a", "b", "c"};
-        JComboBox<String> doctorComboBox = new JComboBox<>(doctor);
+
+        ArrayList<String> nombresDoctores = new ArrayList<>();
+        nombresDoctores.add("Seleccione un doctor");
+        String[] nombresDoctoresArray = nombresDoctores.toArray(new String[0]);
+
+        JComboBox<String> doctorComboBox = new JComboBox<>(nombresDoctoresArray);
+        doctorComboBox.setFont(principalFont);
         doctorComboBox.setPreferredSize(new Dimension(150, 40));
         doctorComboBox.setMaximumSize(new Dimension(150, 40));
         doctorComboBox.setMinimumSize(new Dimension(150, 40));
@@ -62,9 +84,28 @@ public class PacienteFrame extends JFrame{
         mostrarDoctoresButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //Hacer que se muestren los doctores de la especialidad seleccionada
+                String especialidadSeleccionada = (String)especialidadComboBox.getSelectedItem();
+                nombresDoctores.clear();
+                for (Doctor doctor : Main.doctores) {
+                    if (doctor.getEspecialidad().equals(especialidadSeleccionada)) {
+                        String nombreDoctor = "Dr(a). " + doctor.getNombres() + " " + doctor.getApellidos();
+                        nombresDoctores.add(nombreDoctor);
+                    }
+                }
+                String [] nombresDoctoresArray = nombresDoctores.toArray(new String[0]); 
+                doctorComboBox.setFont(principalFont);
+                doctorComboBox.setModel(new DefaultComboBoxModel<>(nombresDoctoresArray));
             }
         });
+
+        ArrayList<String> horariosDoctores = new ArrayList<>();
+        horariosDoctores.add("Seleccione un horario");
+        String[] horariosDoctoresArray = nombresDoctores.toArray(new String[0]);
+
+        JComboBox<String> horaComboBox = new JComboBox<>(horariosDoctoresArray);
+        horaComboBox.setPreferredSize(new Dimension(150, 40));
+        horaComboBox.setMaximumSize(new Dimension(150, 40));
+        horaComboBox.setMinimumSize(new Dimension(150, 40));
 
         JButton mostrarHorariosButton = new JButton("Mostrar horarios");
         mostrarHorariosButton.setFont(principalFont);
@@ -76,7 +117,17 @@ public class PacienteFrame extends JFrame{
         mostrarHorariosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //Hacer que se muestren los horarios del doctor seleccionado
+                String doctorSeleccionado = (String) doctorComboBox.getSelectedItem();
+                horariosDoctores.clear();
+                for (Horario horario : Main.horarios) {
+                    if (("Dr(a). " + horario.getDoctor().getNombres() + " " + horario.getDoctor().getApellidos()).equals(doctorSeleccionado)) {
+                        String horarioEscogido = horario.getHorarioEscogido();
+                        horariosDoctores.add(horarioEscogido);
+                    }
+                }
+                String [] horariosDoctoresArray = horariosDoctores.toArray(new String[0]);                                       
+                horaComboBox.setFont(principalFont);
+                horaComboBox.setModel(new DefaultComboBoxModel<>(horariosDoctoresArray));
             }
         });
         
@@ -87,7 +138,7 @@ public class PacienteFrame extends JFrame{
         fechaLabel.setPreferredSize(new Dimension(150, 40));
         fechaLabel.setMaximumSize(new Dimension(150, 40));
         fechaLabel.setMinimumSize(new Dimension(150, 40));
-        String[] fecha = {"Seleccione la opción", "a", "b", "c"};
+        String[] fecha = {"Seleccione fecha", "15/03/2024", "16/03/2024", "17/03/2024", "18/03/2024", "19/03/2024"};
         JComboBox<String> fechaComboBox = new JComboBox<>(fecha);
         fechaComboBox.setPreferredSize(new Dimension(150, 40));
         fechaComboBox.setMaximumSize(new Dimension(150, 40));
@@ -97,11 +148,8 @@ public class PacienteFrame extends JFrame{
         horaLabel.setPreferredSize(new Dimension(150, 40));
         horaLabel.setMaximumSize(new Dimension(150, 40));
         horaLabel.setMinimumSize(new Dimension(150, 40));
-        String[] hora = {"Seleccione la opción", "a", "b", "c"};
-        JComboBox<String> horaComboBox = new JComboBox<>(hora);
-        horaComboBox.setPreferredSize(new Dimension(150, 40));
-        horaComboBox.setMaximumSize(new Dimension(150, 40));
-        horaComboBox.setMinimumSize(new Dimension(150, 40));
+        
+        
 
         JButton generarCitaButton = new JButton("Generar Cita");
         generarCitaButton.setFont(principalFont);
@@ -113,7 +161,12 @@ public class PacienteFrame extends JFrame{
         generarCitaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                //Hacer que se genere la cita
+                if (citaText.getText().equals("") || especialidadComboBox.getSelectedItem().equals("Seleccione una especialidad") || doctorComboBox.getSelectedItem().equals("Seleccione un doctor") || horaComboBox.getSelectedItem().equals("Seleccione un horario") || fechaComboBox.getSelectedItem().equals("Seleccione fecha")) {
+                    JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+                    return;
+                }
+                contadorCitas++;
+                citasModelTable.addRow(new Object[]{contadorCitas, "Pendiente", fechaComboBox.getSelectedItem(), horaComboBox.getSelectedItem()});
             }
         });
 
@@ -242,4 +295,5 @@ public class PacienteFrame extends JFrame{
         setMinimumSize(new Dimension(1000, 500));
         setVisible(true);
     }
+    
 }

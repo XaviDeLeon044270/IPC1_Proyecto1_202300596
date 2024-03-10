@@ -32,6 +32,7 @@ public class CrearDoctorFrame extends JFrame{
         JLabel especialidadLabel = new JLabel("Especialidad", SwingConstants.LEFT);
         especialidadLabel.setFont(principalFont);
         JComboBox<String> especialidadComboBox = new JComboBox<>(Main.especialidad);
+        especialidadComboBox.setFont(principalFont);
         JLabel telefonoLabel = new JLabel("Telefono", SwingConstants.LEFT);
         telefonoLabel.setFont(principalFont);
         JSpinner telefonoSpinner = new JSpinner(new SpinnerNumberModel(11111111, 11111111, 99999999, 1));
@@ -68,8 +69,8 @@ public class CrearDoctorFrame extends JFrame{
                         return;
                     }
                 }
-                IniciarSesionFrame.codigoDoctor = IniciarSesionFrame.codigoDoctor + 1;
-                String codigoString = Integer.toString(IniciarSesionFrame.codigoDoctor);
+                Main.codigoDoctor = Main.codigoDoctor + 1;
+                String codigoString = Integer.toString(Main.codigoDoctor);
                 JOptionPane.showMessageDialog(null, "Este es el código de doc: \n\n" + codigoString);
                 Doctor nuevoDoctor = new Doctor(nombres, apellidos, edad, genero, contrasena, especialidad, telefono, codigoString);
                 Main.doctores.add(nuevoDoctor);

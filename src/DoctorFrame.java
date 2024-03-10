@@ -9,7 +9,7 @@ public class DoctorFrame extends JFrame{
     final private Font tituloFont = new Font("Times New Roman", Font.BOLD, 25);
     JTextField citaText;
     static DefaultTableModel horariosModelTable = new DefaultTableModel();
-    int contadorCitas = 0;
+    int numeroHorario = 0;
 
     private Doctor doctor;
 
@@ -68,8 +68,8 @@ public class DoctorFrame extends JFrame{
                         return;
                     }
                 }
-                contadorCitas++;
-                Horario nuevoHorario = new Horario(doctor, contadorCitas, horarioEscogido);
+                numeroHorario++;
+                Horario nuevoHorario = new Horario(doctor, numeroHorario, horarioEscogido);
                 Main.horarios.add(nuevoHorario);
                 agregarHorarioATabla(nuevoHorario);
             }

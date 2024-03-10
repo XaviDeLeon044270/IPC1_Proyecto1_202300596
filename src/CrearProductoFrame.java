@@ -52,8 +52,8 @@ public class CrearProductoFrame extends JFrame{
                         return;
                     }
                 }
-                IniciarSesionFrame.codigoProducto = IniciarSesionFrame.codigoProducto + 1;
-                String codigoString = Integer.toString(IniciarSesionFrame.codigoProducto);
+                Main.codigoProducto = Main.codigoProducto + 1;
+                String codigoString = Integer.toString(Main.codigoProducto);
                 JOptionPane.showMessageDialog(null, "Este es el código de paciente: \n\n" + codigoString);
                 Producto nuevoProducto = new Producto(nombre, cantidad, descripcion, precio, codigoString);
                 Main.productos.add(nuevoProducto);
