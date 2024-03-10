@@ -34,7 +34,7 @@ public class IniciarSesionFrame extends JFrame{
 
                 boolean encontrado = false;
 
-                if(codigo.equals("123") && contrasena.equals("123")){
+                if(codigo.equals("202300596") && contrasena.equals("proyecto1IPC1")){
                     JOptionPane.showMessageDialog(null, "Bienvenido Admin. Xavi De León", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
                     AdminFrame adminFrame = new AdminFrame();
                     adminFrame.initialize();

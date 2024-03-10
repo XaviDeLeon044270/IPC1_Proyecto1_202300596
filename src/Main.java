@@ -64,6 +64,20 @@ public class Main {
         AdminFrame.doctoresModelTable.addRow(new Object[]{doctor1.getNombres(), doctor1.getApellidos(), doctor1.getEdad(), doctor1.getGenero(), doctor1.getContrasena(), doctor1.getEspecialidad(), doctor1.getTelefono(), doctor1.getCodigo()});
         AdminFrame.doctoresModelTable.addRow(new Object[]{doctor2.getNombres(), doctor2.getApellidos(), doctor2.getEdad(), doctor2.getGenero(), doctor2.getContrasena(), doctor2.getEspecialidad(), doctor2.getTelefono(), doctor2.getCodigo()});
         AdminFrame.doctoresModelTable.addRow(new Object[]{doctor3.getNombres(), doctor3.getApellidos(), doctor3.getEdad(), doctor3.getGenero(), doctor3.getContrasena(), doctor3.getEspecialidad(), doctor3.getTelefono(), doctor3.getCodigo()});
+
+        Producto producto1 = new Producto("Paracetamol", "100", "Medicamento para el dolor", "5", "30642");
+        Producto producto2 = new Producto("Aspirina", "200", "Medicamento para el dolor de cabeza", "3", "30871");
+        Producto producto3 = new Producto("Vendas", "50", "Para sujetar articulaciones", "15", "30985");
+
+        productos.add(producto1);
+        productos.add(producto2);
+        productos.add(producto3);
+
+        AdminFrame.productosModelTable.addRow(new Object[]{producto1.getNombre(), producto1.getCantidad(), producto1.getDescripcion(), producto1.getPrecio(), producto1.getCodigo()});
+        AdminFrame.productosModelTable.addRow(new Object[]{producto2.getNombre(), producto2.getCantidad(), producto2.getDescripcion(), producto2.getPrecio(), producto2.getCodigo()});
+        AdminFrame.productosModelTable.addRow(new Object[]{producto3.getNombre(), producto3.getCantidad(), producto3.getDescripcion(), producto3.getPrecio(), producto3.getCodigo()});
+
+
     }
     
 }
