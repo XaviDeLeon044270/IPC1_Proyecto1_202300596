@@ -84,13 +84,9 @@ public class IniciarSesionFrame extends JFrame{
                 crearPacienteFrame.initialize();
             }
         });
-        ImageIcon candadoIcon = new ImageIcon("src/Lock.png");
         ImageIcon usuarioIcon = new ImageIcon("src/User.png");
-        Image lockImage = candadoIcon.getImage().getScaledInstance(125, 125, Image.SCALE_SMOOTH);
         Image userImage = usuarioIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-        candadoIcon = new ImageIcon(lockImage);
         usuarioIcon = new ImageIcon(userImage);
-        JLabel candadoLabel = new JLabel(candadoIcon);
         JLabel usuarioLabel = new JLabel(usuarioIcon);
 
         tituloLabel = new JLabel("Iniciar Sesión", SwingConstants.CENTER);
@@ -119,7 +115,6 @@ public class IniciarSesionFrame extends JFrame{
         principalPanel.setLayout(new BorderLayout());
         principalPanel.setBackground(new Color(98, 246, 107));
         principalPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));               
-        principalPanel.add(candadoLabel, BorderLayout.EAST);
         principalPanel.add(tituloPanel, BorderLayout.NORTH);
         principalPanel.add(formularioPanel, BorderLayout.CENTER);        
         principalPanel.add(botonesPanel, BorderLayout.SOUTH);
@@ -128,7 +123,7 @@ public class IniciarSesionFrame extends JFrame{
 
         setTitle("Iniciar Sesión");
         setSize(300, 300);
-        setMinimumSize(new Dimension(600, 450));
+        setMinimumSize(new Dimension(400, 450));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
